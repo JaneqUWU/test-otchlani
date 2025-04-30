@@ -77,7 +77,7 @@
     async function generujTekst() {
       const seed = document.getElementById('seed').value || 'default';
       const rng = new Math.seedrandom(seed);
-      const res = await fetch('https://drive.google.com/uc?export=download&id=1txaHcI8Rj_mMeO3SqspDhXUi4G_5QzNu?nocache=' + Date.now());
+      const res = await fetch('https://cors-anywhere.herokuapp.com/https://drive.google.com/uc?export=download&id=1txaHcI8Rj_mMeO3SqspDhXUi4G_5QzNu?nocache=' + Date.now());
       const slowa = await res.json(); 
       const znaki = ['.', ',', '!', '?', ' -', '...', '?!', '.<br>', '.<br><br>', '?<br>', '?<br><br>', '!<br>', '!<br><br>', '...<br>', '...<br><br>', '?!<br>', '?!<br><br>'];
       const czcionki = [
