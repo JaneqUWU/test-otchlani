@@ -1,0 +1,312 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>test otchłani</title>
+    <link rel="icon" type="image/x-icon" href="icon.ico">
+        <style>
+          body {
+            background: #ceb189;
+          }
+          div {
+            position: relative;
+            top: 48px;
+          }
+          #obraz {
+            float: right;
+            position: relative;
+          }
+          input {
+            position: relative;
+            top: 12px;
+            right: 24px;
+            float: right;
+          }
+          button {
+            position: relative;
+            top: 12px;
+            right: 24px;
+            float: right;
+          }
+          nav {
+            position: fixed;
+            top: 0px;
+            left: 0px;
+            width: 100%;
+            height: 48px;
+            background: #ceb189;
+            -webkit-box-shadow: 0px -1px 24px 0px rgba(97, 80, 56, 1);
+            -moz-box-shadow: 0px -1px 24px 0px rgba(97, 80, 56, 1);
+            box-shadow: 0px -1px 24px 0px rgba(97, 80, 56, 1);
+            z-index:999;
+            border-bottom: 2px solid rgba(97, 80, 56, 1);
+          }
+          #logo {
+            position: relative;
+            float: left;
+          }
+          #nazwa {
+            position: relative;
+            top: -12px;
+            float: left;
+          }
+          @keyframes obracanie {
+            from {
+              transform: rotate(0deg);
+            }
+            to {
+              transform: rotate(360deg);
+            }
+          }
+        </style>
+	</head>
+	<body>
+    <nav>
+      <button onclick="generujTekst()">Testuj otchłań</button>
+		  <input id="seed" placeholder="Wpisz ziarno" />
+      <img id="logo" src="logo.png" height="48px"/>
+      <h1 id="nazwa">test otchłani</h1>
+    </nav>
+    <div>
+      <h1 id="tytul"></h1>
+      <img id="obraz" src="logo.png" width="500px"/>
+      <p id="tekst"><b>Witaj na teście otchłani!</b><br>Na tej stronie możesz przeprowadzać testy otchłani.<br>Przetestuj swoją otchłań i dowiedz się więcej na temat testu otchłani!<br>Przeprowadź test otchłani <b>CAŁKOWICIE ZA DARMO</b> tylko i wyłącznie tutaj!<br>Nie czekaj! Zrób to juz dziś z naszym testem otchłani opracowanym we współpracy z Uniwersytetem Harvarda.</p>
+    </div>
+  <script src="https://cdn.jsdelivr.net/npm/seedrandom@3.0.5/seedrandom.min.js"></script>
+  <script>
+    async function generujTekst() {
+      const seed = document.getElementById('seed').value || 'default';
+      const rng = new Math.seedrandom(seed);
+      const res = await fetch('slowa.json?nocache=' + Date.now());
+      const slowa = await res.json(); 
+      const znaki = ['.', ',', '!', '?', ' -', '...', '?!', '.<br>', '.<br><br>', '?<br>', '?<br><br>', '!<br>', '!<br><br>', '...<br>', '...<br><br>', '?!<br>', '?!<br><br>'];
+      const czcionki = [
+        'Arial', 'Verdana', 'Tahoma', 'Trebuchet MS', 'Georgia', 'Times New Roman',
+        'Courier New', 'Segoe UI', 'Calibri', 'Cambria', 'Consolas',
+        'Lucida Console', 'MS Gothic', 'Courier', 'Fixedsys', 'Terminal',
+        'Impact', 'Comic Sans MS', 'Jokerman', 'Curlz MT', 'Chiller',
+        'Old English Text MT', 'Viner Hand ITC', 'Kristen ITC', 'Ravie',
+        'Gigi', 'Bradley Hand ITC', 'Lucida Handwriting', 'MV Boli',
+        'Papyrus', 'Harlow Solid Italic', 'Playbill', 'Stencil',
+        'Brush Script MT', 'Magneto', 'Mistral', 'Algerian', 'Showcard Gothic',
+        'Goudy Stout', 'Wide Latin', 'Freestyle Script', 'French Script MT',
+        'Tempus Sans ITC', 'Century Gothic', 'Perpetua Titling MT',
+        'Segoe Script', 'Segoe Print', 'Tw Cen MT', 'Informal Roman',
+        'Vivaldi', 'Monotype Corsiva', 'Palace Script MT', 'Edwardian Script ITC',
+        'Franklin Gothic Medium', 'Book Antiqua', 'Gill Sans MT', 'Berlin Sans FB',
+        'Rockwell', 'Baskerville Old Face', 'Elephant', 'Copperplate Gothic Bold',
+        'Modern No. 20', 'Engravers MT', 'Calisto MT', 'Eras Bold ITC'
+      ];
+      const obrazX = (120 + Math.floor(rng() * 800));
+      const obrazY = (120 + Math.floor(rng() * 1000));
+      const obrazXtrans = (320 + Math.floor(rng() * 600));
+      const obrazYtrans = (240 + Math.floor(rng() * 700))
+      const ileSlow = 300 + Math.floor(rng() * 2137);
+      let wynik = [];
+      function generujListe(rng, slowa) {
+        const ileElementow = 1 + Math.floor(rng() * 40);
+        let lista = '<ol>';
+        for (let i = 0; i < ileElementow; i++) {
+          let slowo = slowa[Math.floor(rng() * slowa.length)];
+          let element = slowo;
+          if (rng() < 0.04 && slowo.length > 1) {
+            const index = Math.floor(rng() * slowo.length);
+            const litera = slowo[index];
+            if (rng() < 0.5) {
+              slowo = slowo.slice(0, index) + litera + litera + slowo.slice(index + 1);
+            } else {
+              const alfabet = 'aąbcćdeęfghijklłmnńoópqrsśtuvwxyzźż';
+              const nowaLitera = alfabet[Math.floor(rng() * alfabet.length)];
+              slowo = slowo.slice(0, index) + nowaLitera + slowo.slice(index + 1);
+            }
+          }
+          if (rng() < 0.04) {
+            element = slowo.charAt(0).toUpperCase() + slowo.slice(1);
+          }
+          if (rng() < 0.015) {
+            element = slowo.toUpperCase();
+          }
+          if (rng() < 0.03) {
+            element = `<a href="#" onclick="generujTekstZZiarna('${slowo}')">${slowo}</a>`;
+          }
+          if (rng() < 0.035) {
+            element = `<b>${slowo}</b>`;
+          }
+          if (rng() < 0.032) {
+            element = `<i>${slowo}</i>`;
+          }
+          if (rng() < 0.02) {
+            element = `<q>${slowo}</q>`;
+          }
+          if (rng() < 0.028) {
+            element = `<s>${slowo}</s>`;
+          }
+          if (rng() < 0.008) {
+            element = `<small>${slowo}</small>`;
+          }
+          if (rng() < 0.05) {
+            const znak = znaki[Math.floor(rng() * znaki.length)];
+            element += znak;
+          }
+          lista += `<li>${element}</li>`;
+        }
+        lista += '</ol>';
+        return lista;
+      }
+      function generujUListe(rng, slowa) {
+        const ileElementow = 1 + Math.floor(rng() * 40);
+        let lista = '<ul>';
+        for (let i = 0; i < ileElementow; i++) {
+          let slowo = slowa[Math.floor(rng() * slowa.length)];
+          let element = slowo;
+          if (rng() < 0.04 && slowo.length > 1) {
+            const index = Math.floor(rng() * slowo.length);
+            const litera = slowo[index];
+            if (rng() < 0.5) {
+              slowo = slowo.slice(0, index) + litera + litera + slowo.slice(index + 1);
+            } else {
+              const alfabet = 'aąbcćdeęfghijklłmnńoópqrsśtuvwxyzźż';
+              const nowaLitera = alfabet[Math.floor(rng() * alfabet.length)];
+              slowo = slowo.slice(0, index) + nowaLitera + slowo.slice(index + 1);
+            }
+          }
+          if (rng() < 0.04) {
+            element = slowo.charAt(0).toUpperCase() + slowo.slice(1);
+          }
+          if (rng() < 0.015) {
+            element = slowo.toUpperCase();
+          }
+          if (rng() < 0.03) {
+            element = `<a href="#" onclick="generujTekstZZiarna('${slowo}')">${slowo}</a>`;
+          }
+          if (rng() < 0.035) {
+            element = `<b>${slowo}</b>`;
+          }
+          if (rng() < 0.032) {
+            element = `<i>${slowo}</i>`;
+          }
+          if (rng() < 0.02) {
+            element = `<q>${slowo}</q>`;
+          }
+          if (rng() < 0.028) {
+            element = `<s>${slowo}</s>`;
+          }
+          if (rng() < 0.008) {
+            element = `<small>${slowo}</small>`;
+          }
+          if (rng() < 0.05) {
+            const znak = znaki[Math.floor(rng() * znaki.length)];
+            element += znak;
+          }
+          lista += `<li>${element}</li>`;
+        }
+        lista += '</ul>';
+        return lista;
+      }
+      for (let i = 0; i < ileSlow; i++) {
+        let slowo = slowa[Math.floor(rng() * slowa.length)];
+        let element = slowo;
+        if (rng() < 0.04 && slowo.length > 1) {
+          const index = Math.floor(rng() * slowo.length);
+          const litera = slowo[index];
+          if (rng() < 0.5) {
+            slowo = slowo.slice(0, index) + litera + litera + slowo.slice(index + 1);
+          } else {
+            const alfabet = 'aąbcćdeęfghijklłmnńoópqrsśtuvwxyzźż';
+            const nowaLitera = alfabet[Math.floor(rng() * alfabet.length)];
+            slowo = slowo.slice(0, index) + nowaLitera + slowo.slice(index + 1);
+          }
+        }
+        if (rng() < 0.04) {
+          element = slowo.charAt(0).toUpperCase() + slowo.slice(1);
+        }
+        if (rng() < 0.015) {
+          element = slowo.toUpperCase();
+        }
+        if (rng() < 0.03) {
+          element = `<a href="#" onclick="generujTekstZZiarna('${slowo}')">${slowo}</a>`;
+        }
+        if (rng() < 0.035) {
+          element = `<b>${slowo}</b>`;
+        }
+        if (rng() < 0.032) {
+          element = `<i>${slowo}</i>`;
+        }
+        if (rng() < 0.02) {
+          element = `<q>${slowo}</q>`;
+        }
+        if (rng() < 0.028) {
+          element = `<s>${slowo}</s>`;
+        }
+        if (rng() < 0.01) {
+          element = `<br><h2>${slowo}</h2>`;
+        }
+        if (rng() < 0.008) {
+          element = `<small>${slowo}</small>`;
+        }
+        if (rng() < 0.05) {
+          const znak = znaki[Math.floor(rng() * znaki.length)];
+          element += znak;
+        }
+        if (rng() < 0.0003) {
+          const lista = generujListe(rng, slowa);
+          element = lista;
+        }
+        if (rng() < 0.0003) {
+          const lista = generujUListe(rng, slowa);
+          element = lista;
+        }
+        wynik.push(element);
+      }
+      const tekst = wynik.join(' ');
+      document.getElementById('tekst').innerHTML = tekst;
+      document.getElementById('tytul').innerHTML = seed;
+      const img = document.getElementById('obraz');
+      img.src = `https://picsum.photos/seed/${encodeURIComponent(seed)}/${obrazX}/${obrazY}`;
+      const filtry = [];
+      if (rng() < 0.5) {
+        filtry.push(`blur(${(rng() * 3).toFixed(10)}px)`);
+      }
+      if (rng() < 0.5) {
+        filtry.push(`brightness(${(0.5 + rng()).toFixed(10)})`);
+      }
+      if (rng() < 0.5) {
+        filtry.push(`contrast(${(0.5 + rng()).toFixed(10)})`);
+      }
+      if (rng() < 0.5) {
+        filtry.push(`grayscale(${rng().toFixed(10)})`);
+      }
+      if (rng() < 0.5) {
+        filtry.push(`sepia(${rng().toFixed(10)})`);
+      }
+      if (rng() < 0.3) {
+        filtry.push(`hue-rotate(${Math.floor(rng() * 360)}deg)`);
+      }
+      if (rng() < 0.2) {
+        filtry.push(`invert(${Math.floor(rng() * 100)}%)`);
+      }
+      if (rng() < 0.0002) {
+        document.querySelector('body').style.animation = `obracanie 60s linear infinite`;
+      } else {
+        document.querySelector('body').style.animation = `none`;
+      }
+      obraz.style.filter = filtry.join(' ');
+      const indeksCzcionki = Math.floor(rng() * czcionki.length);
+      const czcionka = czcionki[indeksCzcionki];
+      document.getElementById('tekst').style.fontFamily = `'${czcionka}', sans-serif`;
+      document.getElementById('tytul').style.fontFamily = `'${czcionka}', sans-serif`;
+      document.getElementById('nazwa').style.fontFamily = `'${czcionka}', sans-serif`;
+      document.getElementById('obraz').style.width = `${obrazXtrans}px`;
+      document.getElementById('obraz').style.height = `${obrazYtrans}px`;
+      const rozmiarMin = 12;
+      const rozmiarMax = 24;
+      const rozmiarCzcionki = Math.floor(rng() * (rozmiarMax - rozmiarMin + 1)) + rozmiarMin;
+      document.getElementById('tekst').style.fontSize = `${rozmiarCzcionki}px`;
+    }
+    function generujTekstZZiarna(ziarno) {
+      document.getElementById('seed').value = ziarno;
+      generujTekst();
+    }
+  </script>
+	</body>
+</html>
