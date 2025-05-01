@@ -171,6 +171,29 @@
     </div>
   <script src="https://cdn.jsdelivr.net/npm/seedrandom@3.0.5/seedrandom.min.js"></script>
   <script>
+	  const lacinToCyryl = {
+  a: 'а', b: 'б', c: 'ц', d: 'д', e: 'е', f: 'ф',
+  g: 'г', h: 'х', i: 'и', j: 'й', k: 'к', l: 'л',
+  m: 'м', n: 'н', o: 'о', p: 'п', q: 'қ', r: 'р',
+  s: 'с', t: 'т', u: 'у', v: 'в', w: 'щ', x: 'кс',
+  y: 'ы', z: 'з',
+  A: 'А', B: 'Б', C: 'Ц', D: 'Д', E: 'Е', F: 'Ф',
+  G: 'Г', H: 'Х', I: 'И', J: 'Й', K: 'К', L: 'Л',
+  M: 'М', N: 'Н', O: 'О', P: 'П', Q: 'Қ', R: 'Р',
+  S: 'С', T: 'Т', U: 'У', V: 'В', W: 'Щ', X: 'КС',
+  Y: 'Ы', Z: 'З'
+};
+	  function zamienNaCyrylice(html) {
+  return html.replace(/(<[^>]+>)|([^<]+)/g, (match, tag, text) => {
+    if (tag) return tag; // nie zmieniamy tagów HTML
+    return text.split('').map(litera => {
+      if (Math.random() < 0.3 && lacinToCyryl[litera]) {
+        return lacinToCyryl[litera];
+      }
+      return litera;
+    }).join('');
+  });
+	  }
     async function generujTekst() {
       const seed = document.getElementById('seed').value || 'default';
       const rng = new Math.seedrandom(seed);
@@ -356,6 +379,10 @@
       const tekst = wynik.join(' ');
       document.getElementById('tekst').innerHTML = tekst;
       document.getElementById('tytul').innerHTML = seed;
+	if (rng() < 0.0002) {
+		document.getElementById('tekst').innerHTML = zmienNaCyrylice(document.getElementById('tekst').innerHTML);
+		document.getElementById('tytul').innerHTML = zmienNaCyrylice(document.getElementById('tytul').innerHTML);
+	}
       const img = document.getElementById('obraz');
       img.src = `https://picsum.photos/seed/${encodeURIComponent(seed)}/${obrazX}/${obrazY}`;
       const filtry = [];
