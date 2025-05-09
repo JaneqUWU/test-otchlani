@@ -201,6 +201,7 @@
       });
 	  }
     async function generujTekst() {
+	    document.getElementById('tytul').textContent = 'Ładowanie otchłani...';
       const seed = document.getElementById('seed').value || 'default';
       const rng = new Math.seedrandom(seed);
       const res = await fetch('slowa.json');
