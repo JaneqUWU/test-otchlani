@@ -176,8 +176,6 @@
       <p id="tekst"><b>Witaj na teście otchłani!</b><br>Na tej stronie możesz przeprowadzać testy otchłani.<br>Przetestuj swoją otchłań i dowiedz się więcej na temat testu otchłani!<br>Przeprowadź test otchłani <b>CAŁKOWICIE ZA DARMO</b> tylko i wyłącznie tutaj!<br>Nie czekaj! Zrób to juz dziś z naszym testem otchłani opracowanym we współpracy z Uniwersytetem Harvarda.</p>
     </div>
   <script src="https://cdn.jsdelivr.net/npm/seedrandom@3.0.5/seedrandom.min.js"></script>
-	<script src="https://cdn.jsdelivr.net/npm/msgpack-lite@0.1.26/dist/msgpack.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/pako/2.1.0/pako.min.js"></script>
   <script>
 	  const lacinToCyryl = {
       a: 'а', b: 'б', c: 'ц', d: 'д', e: 'е', f: 'ф',
@@ -206,11 +204,8 @@
 	    document.getElementById('tytul').textContent = 'Ładowanie otchłani...';
       const seed = document.getElementById('seed').value || 'default';
       const rng = new Math.seedrandom(seed);
-      fetch('slowa.msgpack.gz')
-      .then(res => res.arrayBuffer())
-      .then(buffer => {
-        const decompressed = pako.inflate(new Uint8Array(buffer));
-        const slowa = msgpack.decode(decompressed); 
+      const res = await fetch('slowa.json');
+      const slowa = await res.json(); 
       const znaki = ['.', ',', '!', '?', ' -', '...', '?!', '.<br>', '.<br><br>', '?<br>', '?<br><br>', '!<br>', '!<br><br>', '...<br>', '...<br><br>', '?!<br>', '?!<br><br>'];
       const czcionki = [
         "Roboto", "Open Sans", "Lato", "Montserrat", "Oswald", "Raleway", "PT Sans", "Source Sans Pro",
@@ -466,7 +461,6 @@
       const rozmiarCzcionki = Math.floor(rng() * (rozmiarMax - rozmiarMin + 1)) + rozmiarMin;
       document.getElementById('tekst').style.fontSize = `${rozmiarCzcionki}px`;
     }
-	)}
     function generujTekstZZiarna(ziarno) {
       document.getElementById('seed').value = ziarno;
       generujTekst();
