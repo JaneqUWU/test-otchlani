@@ -465,7 +465,8 @@
       const rozmiarMax = 24;
       const rozmiarCzcionki = Math.floor(rng() * (rozmiarMax - rozmiarMin + 1)) + rozmiarMin;
       document.getElementById('tekst').style.fontSize = `${rozmiarCzcionki}px`;
-    )}
+    }
+	)}
     function generujTekstZZiarna(ziarno) {
       document.getElementById('seed').value = ziarno;
       generujTekst();
